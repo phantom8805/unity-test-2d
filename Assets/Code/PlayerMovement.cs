@@ -2,17 +2,34 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    void Start()
-    {
+    private Rigidbody2D _rigidbody2D;
 
+    private float _playerForce = 5f;
+
+    float VerticalForce()
+    {
+        return _playerForce * 2;
+    }
+    
+    float HorizontalForce()
+    {
+        return _playerForce;
     }
 
-    void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        _rigidbody2D = GetComponent<Rigidbody2D>();
+    }
+
+    private void Update()
+    {
+        float horizontalAxisValue = Input.GetAxisRaw("Horizontal");
+        
+        _rigidbody2D.velocity = new Vector3(HorizontalForce() * horizontalAxisValue, _rigidbody2D.velocity.y);
+        
+        if (Input.GetButtonDown("Jump"))
         {
-            
-            GetComponent<Rigidbody2D>().velocity = new Vector3(0, 5, 0);
+            _rigidbody2D.velocity = new Vector3(_rigidbody2D.velocity.x, VerticalForce());
         }
     }
 }
