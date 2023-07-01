@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
 
     float VerticalForce()
     {
-        return _playerForce * 2;
+        return _playerForce * 1.5f;
     }
     
     float HorizontalForce()
@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
         
         _rigidbody2D.velocity = new Vector3(HorizontalForce() * horizontalAxisValue, _rigidbody2D.velocity.y);
         
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && _rigidbody2D.velocity.y == 0)
         {
             _rigidbody2D.velocity = new Vector3(_rigidbody2D.velocity.x, VerticalForce());
         }
