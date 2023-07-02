@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -31,14 +32,18 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         _horizontalAxisValue = Input.GetAxisRaw("Horizontal");
-        
-        _rigidbody2D.velocity = new Vector3(HorizontalForce() * _horizontalAxisValue, _rigidbody2D.velocity.y);
-        
-        if (Input.GetButtonDown("Jump") && _rigidbody2D.position.y == 0)
+
+        if (MathF.Round(_rigidbody2D.velocity.y) == 0)
         {
-            _rigidbody2D.velocity = new Vector3(_rigidbody2D.velocity.x, VerticalForce());
+            _rigidbody2D.velocity = new Vector3(HorizontalForce() * _horizontalAxisValue, _rigidbody2D.velocity.y);
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                _rigidbody2D.velocity = new Vector3(_rigidbody2D.velocity.x, VerticalForce());
+            }
         }
         
+
         UpdateAnimations();
     }
 
