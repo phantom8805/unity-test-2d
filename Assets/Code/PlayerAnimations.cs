@@ -6,10 +6,18 @@ public class PlayerAnimations : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
-    
+
     private static readonly int AnimatorStateField = Animator.StringToHash("state");
-    
-    private enum MovementState { Idle, Running, Jumping, Falling}
+
+    private enum MovementState
+    {
+        Idle,
+        Running,
+        Jumping,
+        Falling
+    }
+
+    MovementState _previousMovementState = MovementState.Idle;
 
     private void Start()
     {
@@ -26,7 +34,7 @@ public class PlayerAnimations : MonoBehaviour
     private void UpdateAnimations(Vector2 velocity)
     {
         MovementState state;
-        
+
         // animations when on air
         if (Math.Abs(velocity.y) > .1f)
         {
@@ -45,6 +53,11 @@ public class PlayerAnimations : MonoBehaviour
                 _spriteRenderer.flipX = velocity.x < 0f;
             }
         }
-        _animator.SetInteger(AnimatorStateField, (int)state);
+
+        if (_previousMovementState != state)
+        {
+            _previousMovementState = state;
+            _animator.SetInteger(AnimatorStateField, (int)state);
+        }
     }
 }
