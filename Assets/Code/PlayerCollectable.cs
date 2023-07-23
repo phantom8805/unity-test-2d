@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCollectable : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class PlayerCollectable : MonoBehaviour
     [SerializeField] private GameObject[] objectsToSpawn;
 
     [SerializeField] private Transform parent;
+
+    [SerializeField] private Text textValue;
 
     void Start()
     {
@@ -22,7 +25,8 @@ public class PlayerCollectable : MonoBehaviour
         {
             _collectedCount++;
             Destroy(other.gameObject);
-            print(_collectedCount);
+
+            textValue.text = _collectedCount.ToString();
         }
     }
 
