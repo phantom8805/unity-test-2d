@@ -4,6 +4,7 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D _rigidbody2D;
     private BoxCollider2D _collider;
+    private Collider2D _currentGroundCollider;
 
     [SerializeField] private float verticalForce = 7f;
     [SerializeField] private float horizontalForce = 5f;
@@ -22,10 +23,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (IsGrounded())
+        RaycastHit2D groundRaycast = IsGrounded();
+        
+        if (groundRaycast)
         {
+            OnGroundCollide(groundRaycast.collider);
             UpdatePlayerVelocity();
         }
+    }
+
+    private void OnGroundCollide(Collider2D groundCollider)
+    {
+        if(_currentGroundCollider == groundCollider) return;
+
+        _currentGroundCollider = groundCollider;
+        gameObject.transform.SetParent(_currentGroundCollider.transform);
     }
 
     private void UpdatePlayerVelocity()
@@ -40,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private bool IsGrounded()
+    private RaycastHit2D IsGrounded()
     {
         float maxRayDistance = _distToGround + 0.1f;
 
