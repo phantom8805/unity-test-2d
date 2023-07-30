@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -5,6 +6,12 @@ namespace Base
 {
     public class FinishController : MonoBehaviour
     {
+        private AudioSource _audioSource;
+        private void Start()
+        {
+            _audioSource = GetComponent<AudioSource>();
+        }
+
         public void OnQuitClick()
         {
             Application.Quit();
@@ -14,8 +21,15 @@ namespace Base
         {
             if (other.CompareTag("Player"))
             {
-                SceneManager.LoadScene(gameObject.scene.buildIndex + 1);
+                _audioSource.Play();
+                StartCoroutine(LoadNextScene());
             }
+        }
+        
+        IEnumerator LoadNextScene()
+        {
+            yield return new WaitForSeconds(3);
+            SceneManager.LoadScene(gameObject.scene.buildIndex + 1);
         }
     }
 }

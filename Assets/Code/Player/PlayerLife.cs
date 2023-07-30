@@ -9,6 +9,8 @@ namespace Base.Player
         private Rigidbody2D _rigidbody2D;
         private static readonly int Dead = Animator.StringToHash("dead");
 
+        [SerializeField] private AudioSource fatalAudio;
+        
         [SerializeField] private float fatalFallDistance = 6f;
         private float _fallStartedAtPosition;
         private bool _isFalling;
@@ -56,6 +58,7 @@ namespace Base.Player
 
         private void DieAnimationAndDisable()
         {
+            fatalAudio.Play();
             _animator.SetTrigger(Dead);
             _rigidbody2D.isKinematic = true;
             _rigidbody2D.simulated = false;
