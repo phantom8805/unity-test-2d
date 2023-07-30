@@ -1,36 +1,41 @@
 using UnityEngine;
-public class BallMoveBetweenPoints : MonoBehaviour
+
+namespace Base.MoveableItems
 {
-    private Rigidbody2D _rigidbody2D;
-
-    [SerializeField] private float speed = 80f;
-
-    [SerializeField] private GameObject startPoint;
-    [SerializeField] private GameObject endPoint;
-
-    private bool _moveIsReverse;
-
-    private void Start()
+    public class BallMoveBetweenPoints : MonoBehaviour
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
-    }
+        private Rigidbody2D _rigidbody2D;
 
-    private void Update()
-    {
-        GameObject targetPoint = _moveIsReverse ? endPoint : startPoint;
+        [SerializeField] private float speed = 80f;
 
-        float distance = Vector2.Distance(
-            new Vector2(_rigidbody2D.position.x, 0f),
-            new Vector2(targetPoint.transform.position.x, 0f)
-        );
-        if (distance < 0.1f)
+        [SerializeField] private GameObject startPoint;
+        [SerializeField] private GameObject endPoint;
+
+        private bool _moveIsReverse;
+
+        private void Start()
         {
-            _moveIsReverse = !_moveIsReverse;
+            _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
-        float rotationAngle = speed * Time.fixedDeltaTime * (_moveIsReverse ? -1 : 1);
-        Quaternion quaternion = Quaternion.Euler(0, 0, _rigidbody2D.rotation + rotationAngle);
+        private void Update()
+        {
+            GameObject targetPoint = _moveIsReverse ? endPoint : startPoint;
 
-        _rigidbody2D.MoveRotation(quaternion);
+            float distance = Vector2.Distance(
+                new Vector2(_rigidbody2D.position.x, 0f),
+                new Vector2(targetPoint.transform.position.x, 0f)
+            );
+            if (distance < 0.1f)
+            {
+                _moveIsReverse = !_moveIsReverse;
+            }
+
+            float rotationAngle = speed * Time.fixedDeltaTime * (_moveIsReverse ? -1 : 1);
+            Quaternion quaternion = Quaternion.Euler(0, 0, _rigidbody2D.rotation + rotationAngle);
+
+            _rigidbody2D.MoveRotation(quaternion);
+        }
     }
+
 }

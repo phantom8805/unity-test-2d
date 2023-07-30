@@ -1,27 +1,31 @@
 using UnityEngine;
-public class MoveBetweenPoints : MonoBehaviour
+
+namespace Base.MoveableItems
 {
-
-    [SerializeField] private float horizontalSpeed = 2f;
-
-    [SerializeField] private GameObject startPoint;
-    [SerializeField] private GameObject endPoint;
-
-    private bool _moveIsReverse;
-
-    private void Update()
+    public class MoveBetweenPoints : MonoBehaviour
     {
-        GameObject targetPoint = _moveIsReverse ? endPoint : startPoint;
 
-        if (Vector2.Distance(transform.position, targetPoint.transform.position) < 0.1f)
+        [SerializeField] private float horizontalSpeed = 2f;
+
+        [SerializeField] private GameObject startPoint;
+        [SerializeField] private GameObject endPoint;
+
+        private bool _moveIsReverse;
+
+        private void Update()
         {
-            _moveIsReverse = !_moveIsReverse;
-        }
+            GameObject targetPoint = _moveIsReverse ? endPoint : startPoint;
 
-        transform.position = Vector2.MoveTowards(
-            transform.position,
-            targetPoint.transform.position,
-            horizontalSpeed * Time.deltaTime
-        );
+            if (Vector2.Distance(transform.position, targetPoint.transform.position) < 0.1f)
+            {
+                _moveIsReverse = !_moveIsReverse;
+            }
+
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                targetPoint.transform.position,
+                horizontalSpeed * Time.deltaTime
+            );
+        }
     }
 }
