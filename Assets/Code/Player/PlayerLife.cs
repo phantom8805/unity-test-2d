@@ -9,16 +9,47 @@ namespace Base.Player
         private Rigidbody2D _rigidbody2D;
         private static readonly int Dead = Animator.StringToHash("dead");
 
+        [SerializeField] private float fatalFallDistance = 6f;
+        private float _fallStartedAtPosition;
+        private bool _isFalling;
+
         private void Start()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _animator = GetComponent<Animator>();
         }
 
+        private void Update()
+        {
+            PlayerFalling();
+        }
+
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.CompareTag("Trap"))
             {
+                DieAnimationAndDisable();
+            }
+        }
+
+        private void PlayerFalling()
+        {
+            if (_rigidbody2D.velocity.y < 0.1f)
+            {
+                if (!_isFalling) _fallStartedAtPosition = _rigidbody2D.position.y;
+                _isFalling = true;
+            }
+            else
+            {
+                _isFalling = false;
+                _fallStartedAtPosition = 0;
+            }
+
+            if (_fallStartedAtPosition - _rigidbody2D.position.y > fatalFallDistance)
+            {
+                _isFalling = false;
+                _fallStartedAtPosition = 0;
+
                 DieAnimationAndDisable();
             }
         }
