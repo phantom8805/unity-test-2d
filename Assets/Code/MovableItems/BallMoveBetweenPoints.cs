@@ -1,5 +1,4 @@
 using UnityEngine;
-
 public class BallMoveBetweenPoints : MonoBehaviour
 {
     private Rigidbody2D _rigidbody2D;

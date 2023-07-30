@@ -1,8 +1,6 @@
 using UnityEngine;
-
 public class MoveBetweenPoints : MonoBehaviour
 {
-    private BoxCollider2D _collider;
 
     [SerializeField] private float horizontalSpeed = 2f;
 
@@ -10,11 +8,6 @@ public class MoveBetweenPoints : MonoBehaviour
     [SerializeField] private GameObject endPoint;
 
     private bool _moveIsReverse;
-
-    private void Start()
-    {
-        _collider = GetComponent<BoxCollider2D>();
-    }
 
     private void Update()
     {
