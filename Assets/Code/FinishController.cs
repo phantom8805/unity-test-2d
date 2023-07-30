@@ -5,7 +5,7 @@ namespace Base
 {
     public class FinishController : MonoBehaviour
     {
-        public void onQuitClick()
+        public void OnQuitClick()
         {
             Application.Quit();
         }

@@ -5,7 +5,7 @@ namespace Base
 {
     public class StartController : MonoBehaviour
     {
-        public void onStartButtonClick()
+        public void OnStartButtonClick()
         {
             SceneManager.LoadScene(gameObject.scene.buildIndex + 1);
         }
