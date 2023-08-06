@@ -1,8 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Base.Player
 {
+    public delegate void CallBack();
+
     public class PlayerLife : MonoBehaviour
     {
         private Animator _animator;
@@ -10,7 +13,7 @@ namespace Base.Player
         private static readonly int Dead = Animator.StringToHash("dead");
 
         [SerializeField] private AudioSource fatalAudio;
-        
+
         [SerializeField] private float fatalFallDistance = 6f;
         private float _fallStartedAtPosition;
         private bool _isFalling;
@@ -66,7 +69,18 @@ namespace Base.Player
 
         private void OnDieAnimationEnd()
         {
+            StartCoroutine(CallWithDelay(ReloadScene, 2));
+        }
+
+        private void ReloadScene()
+        {
             SceneManager.LoadScene(gameObject.scene.name);
+        }
+
+        private IEnumerator CallWithDelay(CallBack callback, int delay)
+        {
+            yield return new WaitForSeconds(delay);
+            callback();
         }
     }
 }
